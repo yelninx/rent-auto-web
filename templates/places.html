@@ -11,12 +11,15 @@
     </a>
     <table>
         <thead>
-            <tr>
-                <td>id</td>
-                <td>name</td>
-                <td>address</td>
-                <td>action</td>
-            </tr>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>address</td>
+            {% if current_user.is_admin %}
+            <td>action</td>
+            <td>delete</td>
+            {%endif%}
+        </tr>
         </thead>
         <tbody>
         {% for place in places %}
@@ -30,30 +33,27 @@
             <td>
                 {{place.address}}
             </td>
+            {% if current_user.is_admin %}
             <td>
                 <a href="/places/{{place.id}}" class="btn btn-warning">
-                    {% if current_user.is_admin %}
-                        Edit
-                    {% endif %}
+                    Edit
                 </a>
             </td>
             <td>
                 <a href="/delete/places/{{place.id}}" class="btn btn-warning">
-                    {%if current_user.is_admin %}
                     Delete
-                    {%endif%}
                 </a>
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
     </table>
-
+    {%if current_user.is_admin %}
     <a href="/add/places" class="btn btn-warning">
-        {%if current_user.is_admin %}
-            Add
-        {%endif%}
+        Add
     </a>
+    {%endif%}
 </div>
 {% endif %}
 {% endblock %}

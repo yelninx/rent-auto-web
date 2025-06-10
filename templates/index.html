@@ -23,16 +23,18 @@
     </ul>
     <table>
         <thead>
-            <tr>
-                <th>id</th>
-                <th>image</th>
-                <th>brand</th>
-                <th>model</th>
-                <th>year</th>
-                <th>availability</th>
-                <th>action</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>id</th>
+            <th>image</th>
+            <th>brand</th>
+            <th>model</th>
+            <th>year</th>
+            <th>availability</th>
+            <th>action</th>
+            {% if current_user.is_admin %}
+            <th>delete</th>
+            {%endif%}
+        </tr>
         </thead>
         <tbody>
         {% for car in cars %}
@@ -59,37 +61,36 @@
                 Available
                 {%endif%}
             </td>
-            <td>
-                <a href="/cars/{{car.id}}" class="btn btn-warning">
-                    {% if current_user.is_admin %}
-                    Edit
-                    {% else %}
-                    {% if car.is_taken %}
 
-                    {% else %}
-                    Rent
-                    {% endif %}
-                    {% endif %}
+            <td>
+                {% if current_user.is_admin %}
+                <a href="/cars/{{car.id}}" class="btn btn-warning">
+                    Edit
                 </a>
+                {% else %}
+                {% if not car.is_taken %}
+                <a href="/cars/{{car.id}}" class="btn btn-warning">
+                    Rent
+                </a>
+                {%endif%}
+                {% endif %}
             </td>
+            {% if current_user.is_admin %}
             <td>
                 <a href="/delete/cars/{{car.id}}" class="btn btn-warning">
-                    {% if current_user.is_admin %}
                     Delete
-                    {% else %}
-
-                    {% endif %}
                 </a>
             </td>
+            {% endif %}
         </tr>
         {% endfor %}
         </tbody>
     </table>
+    {%if current_user.is_admin %}
     <a href="/add/cars" class="btn btn-warning">
-        {%if current_user.is_admin %}
         Add car
-        {%endif%}
     </a>
+    {%endif%}
 </div>
 {% else %}
 <h3>
@@ -106,42 +107,41 @@
     </div>
     <table>
         <thead>
-            <tr>
-                <th>id</th>
-                <th>image</th>
-                <th>brand</th>
-                <th>model</th>
-                <th>year</th>
-                <th>availability</th>
-                <th>action</th>
-            </tr>
+        <tr>
+            <th>id</th>
+            <th>image</th>
+            <th>brand</th>
+            <th>model</th>
+            <th>year</th>
+            <th>availability</th>
+        </tr>
         </thead>
         <tbody>
         {% for car in cars %}
-            <tr>
-                <td>
-                    {{car.id}}
-                </td>
-                <td>
-                    <img src="{{ url_for('static',filename='images/'+car.image) }}" alt="image">
-                </td>
-                <td>
-                    {{car.brand}}
-                </td>
-                <td>
-                    {{car.model}}
-                </td>
-                <td>
-                    {{car.year}}
-                </td>
-                <td>
-                    {% if car.is_taken %}
-                    Rented
-                    {%else%}
-                    Available
-                    {%endif%}
-                </td>
-            </tr>
+        <tr>
+            <td>
+                {{car.id}}
+            </td>
+            <td>
+                <img src="{{ url_for('static',filename='images/'+car.image) }}" alt="image">
+            </td>
+            <td>
+                {{car.brand}}
+            </td>
+            <td>
+                {{car.model}}
+            </td>
+            <td>
+                {{car.year}}
+            </td>
+            <td>
+                {% if car.is_taken %}
+                Rented
+                {%else%}
+                Available
+                {%endif%}
+            </td>
+        </tr>
         {% endfor %}
         </tbody>
     </table>
