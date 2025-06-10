@@ -24,7 +24,7 @@
 ## 📄 Установка и запуск
 
 ```bash
-git clone https://github.com/yelninx/car-rent-web
+git clone https://github.com/yelninx/rent-auto-web
 cd car-rent-web
 python -m venv venv
 source venv/bin/activate  # или venv\Scripts\activate на Windows
