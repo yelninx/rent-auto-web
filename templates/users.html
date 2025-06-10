@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+        <h2>Users</h2>
+</div>
+{% if current_user.is_authenticated %}
+<div>
+    <a href="/logout" class="btn btn-warning">
+        {{ current_user.login }}
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>login</td>
+                <td>is_admin</td>
+                {%if current_user.is_admin%}
+                <td>edit</td>
+                <td>delete</td>
+                {%endif%}
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+        <tr>
+            <td>
+                {{user.id}}
+            </td>
+            <td>
+                {{user.login}}
+            </td>
+            <td>
+                {{user.is_admin}}
+            </td>
+            <td>
+                <a href="/users/{{user.id}}" class="btn btn-warning">
+                    {% if current_user.is_admin %}
+                    Edit
+                    {% endif %}
+                </a>
+            </td>
+            <td>
+                <a href="/delete/users/{{user.id}}" class="btn btn-warning">
+                    {%if current_user.is_admin %}
+                    Delete
+                    {%endif%}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="/add/users" class="btn btn-warning">
+        {%if current_user.is_admin %}
+            Add
+        {%endif%}
+    </a>
+</div>
+{% endif %}
+{% endblock %}

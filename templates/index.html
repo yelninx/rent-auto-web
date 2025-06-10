@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<div>
+    <a href="/logout" class="btn btn-warning">
+        {{ current_user.login }}
+    </a>
+    <h2 class="mb-4">Welcome!</h2>
+    <ul class="list-group">
+        {% if current_user.is_admin%}
+        <li class="list-group-item">
+            <a href="{{ routes[0]['path'] }}" class="btn btn-warning">
+                {{ routes[0]['name'] }}
+            </a>
+        </li>
+        {%endif%}
+        <li class="list-group-item">
+            <a href="{{ routes[1]['path'] }}" class="btn btn-warning">
+                {{ routes[1]['name'] }}
+            </a>
+        </li>
+    </ul>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>image</th>
+                <th>brand</th>
+                <th>model</th>
+                <th>year</th>
+                <th>availability</th>
+                <th>action</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+        <tr>
+            <td>
+                {{car.id}}
+            </td>
+            <td>
+                <img src="{{ url_for('static',filename='images/'+car.image) }}" alt="image">
+            </td>
+            <td>
+                {{car.brand}}
+            </td>
+            <td>
+                {{car.model}}
+            </td>
+            <td>
+                {{car.year}}
+            </td>
+            <td>
+                {% if car.is_taken %}
+                Rented
+                {%else%}
+                Available
+                {%endif%}
+            </td>
+            <td>
+                <a href="/cars/{{car.id}}" class="btn btn-warning">
+                    {% if current_user.is_admin %}
+                    Edit
+                    {% else %}
+                    {% if car.is_taken %}
+
+                    {% else %}
+                    Rent
+                    {% endif %}
+                    {% endif %}
+                </a>
+            </td>
+            <td>
+                <a href="/delete/cars/{{car.id}}" class="btn btn-warning">
+                    {% if current_user.is_admin %}
+                    Delete
+                    {% else %}
+
+                    {% endif %}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="/add/cars" class="btn btn-warning">
+        {%if current_user.is_admin %}
+        Add car
+        {%endif%}
+    </a>
+</div>
+{% else %}
+<h3>
+    Guest
+</h3>
+<div class="text-center">
+    <div class="d-inline-block">
+        <a href="/login" class="btn btn-warning mx-2">
+            Войти
+        </a>
+        <a href="/register" class="btn btn-warning mx-2">
+            Зарегистрироваться
+        </a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>image</th>
+                <th>brand</th>
+                <th>model</th>
+                <th>year</th>
+                <th>availability</th>
+                <th>action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>
+                    {{car.id}}
+                </td>
+                <td>
+                    <img src="{{ url_for('static',filename='images/'+car.image) }}" alt="image">
+                </td>
+                <td>
+                    {{car.brand}}
+                </td>
+                <td>
+                    {{car.model}}
+                </td>
+                <td>
+                    {{car.year}}
+                </td>
+                <td>
+                    {% if car.is_taken %}
+                    Rented
+                    {%else%}
+                    Available
+                    {%endif%}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

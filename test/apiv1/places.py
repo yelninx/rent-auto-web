@@ -1,0 +1,16 @@
+from requests import get, post, put, delete
+
+print('get places')
+print(get('http://localhost:8080/api/v1/places').json())
+print('add place')
+print(post('http://localhost:8080/api/v1/places', json={'name': 'place2', 'owner_id': 1, 'address': 'asd'}).json())
+print('get 1 place')
+print(get('http://localhost:8080/api/v1/places/2').json())
+print('update place')
+print(put('http://localhost:8080/api/v1/places/2', json={'name': 'place2', 'owner_id': 1, 'address': 'as2d'}).json())
+print('updated place')
+print(get('http://localhost:8080/api/v1/places/2').json())
+print('delete place')
+print(delete('http://localhost:8080/api/v1/places/2').json())
+print('all places')
+print(get('http://localhost:8080/api/v1/places').json())

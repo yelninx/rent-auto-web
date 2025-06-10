@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Car</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.brand.label }}<br>
+        {{ form.brand(class="form-control", type="string") }}<br>
+        {% for error in form.brand.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.model.label }}<br>
+        {{ form.model(class="form-control", type="string") }}<br>
+        {% for error in form.model.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.year.label }}<br>
+        {{ form.year(class="form-control", type="string") }}<br>
+        {% for error in form.year.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.is_taken.label }}<br>
+        {{ form.is_taken() }}<br>
+        {% for error in form.is_taken.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{ form.place_id.label }}<br>
+        {{ form.place_id() }}<br>
+        {% for error in form.place_id.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    <p>
+        {{form.image.label}}<br>
+        {{form.image }}<br>
+        {% for error in form.image.errors%}
+    <p class="alert alert-danger" role="alert">
+        {{error}}
+    </p>
+    {% endfor %}
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{message}}
+</form>
+{% endblock %}

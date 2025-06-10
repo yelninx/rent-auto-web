@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if current_user.is_authenticated %}
+<div>
+    <h2>Places</h2>
+</div>
+<div>
+    <a href="/logout" class="btn btn-warning">
+        {{ current_user.login }}
+    </a>
+    <table>
+        <thead>
+            <tr>
+                <td>id</td>
+                <td>name</td>
+                <td>address</td>
+                <td>action</td>
+            </tr>
+        </thead>
+        <tbody>
+        {% for place in places %}
+        <tr>
+            <td>
+                {{place.id}}
+            </td>
+            <td>
+                {{place.name}}
+            </td>
+            <td>
+                {{place.address}}
+            </td>
+            <td>
+                <a href="/places/{{place.id}}" class="btn btn-warning">
+                    {% if current_user.is_admin %}
+                        Edit
+                    {% endif %}
+                </a>
+            </td>
+            <td>
+                <a href="/delete/places/{{place.id}}" class="btn btn-warning">
+                    {%if current_user.is_admin %}
+                    Delete
+                    {%endif%}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/add/places" class="btn btn-warning">
+        {%if current_user.is_admin %}
+            Add
+        {%endif%}
+    </a>
+</div>
+{% endif %}
+{% endblock %}
